@@ -33,7 +33,7 @@ Execute the script to fetch the latest games:
 Output files (`indie_games_YYYYMMDD_HHMMSS.csv` and `indie_games_YYYYMMDD_HHMMSS.json`) will be generated in the `data` directory.
 
 
-### Scheduled Scraping (Advanced)
+### Scheduled Scraping
 To collect data periodically, use a cron job or task scheduler. Example cron job (runs daily at noon):
 ```bash
 0 12 * * * /usr/bin/python3 /path/to/indie-game-scraper/scraper.py
@@ -66,10 +66,10 @@ To collect data periodically, use a cron job or task scheduler. Example cron job
 - **Discover New Games**: Track daily releases automatically.
 - **Trend Analysis**: Identify trending genres (e.g., "horror", "roguelike") from tags.
 - **Content Curation**: Power newsletters, blogs, or social media feeds highlighting new indie games with fresh game data.
-- **Integration**: Feed data into APIs, databases, or custom indie game discovery platforms.
+- **Integration**: Feed data into APIs, or databases.
 
 ## Disclaimer
-This script is for educational purposes only. Respect website terms of service.
+This script is for educational purposes only. 
 
 ## License
 MIT License. See [LICENSE](LICENSE).

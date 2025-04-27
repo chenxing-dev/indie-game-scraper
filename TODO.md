@@ -33,3 +33,30 @@
   ```
 
 ---
+
+`generate_report.py` creates a markdown summary
+
+### Report Preview:
+
+```markdown
+# Daily Indie Game Report - 2023-10-27
+
+## New Releases: 42 games
+
+### Trending Tags
+| Tag          | Count |
+|--------------|-------|
+| Horror       | 12    |
+| Pixel Art    | 9     |
+| RPG          | 7     |
+
+### Notable Releases
+| Title               | Developer       | Tags                          |
+|---------------------|-----------------|-------------------------------|
+| Space Quest         | Cosmic Dev      | [RPG, Space, Adventure]       |
+| Haunted Mansion     | Spooky Studios  | [Horror, Puzzle, Atmospheric] |
+```
+
+---
+
+**Discord Bot**: Post updates to a private Discord channel.
