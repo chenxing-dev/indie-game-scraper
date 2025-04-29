@@ -27,6 +27,14 @@ OUTPUT_JSON = DATA_DIR / f"indie_games_{timestamp}.json"
 PAGE_DELAY = 5 # Seconds between page requests
 GAME_DELAY = 3 # Base seconds between game detail requests
 
+def parse_date(date_str: str) -> str:
+	"""Convert '28 April 2025 @ 07:08 UTC' to '2025-04-28T07:08:00Z'"""
+	try:
+		dt = datetime.strptime(date_str, "%d %B %Y @ %H:%M UTC")
+		return dt.isoformat() + "Z" # ISO 8601 with UTC timezone
+	except ValueError:
+		return None
+
 def get_game_details(game_url):
 	"""Scrape additional details from individual game page"""
 	try:
@@ -43,7 +51,7 @@ def get_game_details(game_url):
 
 		# Extract published date
 		published_date = info_panel.select_one('abbr') 
-		published_date = published_date["title"] if published_date else None
+		published_date = parse_date(published_date["title"].strip()) if published_date else None
 
 		# Extract tags
 		tags = []
@@ -72,7 +80,7 @@ def scrape_indie_games():
 			response = requests.get(url, headers=HEADERS)
 			response.encoding = 'utf-8'
 			response.raise_for_status()
-			soup = BeautifulSoup(response.text, "html.parser", from_encoding='utf-8')
+			soup = BeautifulSoup(response.text, "html.parser")
 
 			# Check for termination conditions
 			no_results = soup.select_one("div.empty_message")

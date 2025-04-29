@@ -8,7 +8,7 @@ def query_games():
 	c.execute('''SELECT title, developer, published_date 
 	          FROM games 
 	          ORDER BY published_date DESC 
-	          LIMIT 5''')
+	          LIMIT 10''')
 
 	for row in c.fetchall():
 		print(f"{row[2]} | {row[0]} by {row[1]}")

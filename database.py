@@ -11,7 +11,7 @@ def create_table():
 	          (title TEXT, 
 	           developer TEXT, 
 	           url TEXT PRIMARY KEY, 
-	           published_date TEXT, 
+	           published_date DATETIME, 
 	           price TEXT, 
 	           tags TEXT,
 	           description TEXT)''')
