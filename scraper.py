@@ -6,6 +6,7 @@ import json
 import time
 import random
 from datetime import datetime
+from pathlib import Path
 
 # Configuration
 BASE_URL = "https://itch.io/games/newest/last-day?page="
@@ -13,9 +14,14 @@ HEADERS = {
 	"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36"
 }
 
+# Get the directory of THIS script
+SCRIPT_DIR = Path(os.path.dirname(os.path.realpath(__file__)))
+
+# Define paths relative to script location
+DATA_DIR = SCRIPT_DIR / "data"
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-OUTPUT_CSV = f"data/indie_games_{timestamp}.csv"
-OUTPUT_JSON = f"data/indie_games_{timestamp}.json"
+OUTPUT_CSV = DATA_DIR / f"indie_games_{timestamp}.csv"
+OUTPUT_JSON = DATA_DIR / f"indie_games_{timestamp}.json"
 
 # Rate limiting controls
 PAGE_DELAY = 5 # Seconds between page requests
@@ -25,6 +31,7 @@ def get_game_details(game_url):
 	"""Scrape additional details from individual game page"""
 	try:
 		response = requests.get(game_url, headers=HEADERS)
+		response.encoding = 'utf-8'
 		response.raise_for_status()
 		print(f"Scraping game details from {game_url}...")
 		soup = BeautifulSoup(response.text, 'html.parser')
@@ -63,8 +70,9 @@ def scrape_indie_games():
 			url = f"{BASE_URL}{page}"
 			print(f"Scraping page {page}...") 
 			response = requests.get(url, headers=HEADERS)
+			response.encoding = 'utf-8'
 			response.raise_for_status()
-			soup = BeautifulSoup(response.text, "html.parser")
+			soup = BeautifulSoup(response.text, "html.parser", from_encoding='utf-8')
 
 			# Check for termination conditions
 			no_results = soup.select_one("div.empty_message")
@@ -122,9 +130,6 @@ def scrape_indie_games():
 			print(f"Fatal error: {e}")
 			break
 
-
-
-
 	# Export data if games found
 	if games:
 		save_data(games)
@@ -132,8 +137,8 @@ def scrape_indie_games():
 		print("No games scraped.")
 
 def save_data(games):
-	# Create directory if needed
-	os.makedirs("data", exist_ok=True)
+	# Ensure data directory exists
+	DATA_DIR.mkdir(parents=True, exist_ok=True)
 
 	# Export to CSV
 	with open(OUTPUT_CSV, "w", newline="", encoding="utf-8") as csvfile:
