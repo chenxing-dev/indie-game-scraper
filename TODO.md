@@ -1,4 +1,9 @@
 
+## Use Cases
+- **Discover New Games**: Track daily releases automatically.
+- **Trend Analysis**: Identify trending genres (e.g., "horror", "roguelike") from tags.
+- **Content Curation**: Power newsletters, blogs, or social media feeds highlighting new indie games with fresh game data.
+- **Integration**: Feed data into APIs, or databases.
 
 ---
 

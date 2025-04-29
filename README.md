@@ -2,11 +2,9 @@
 
 A Python web scraper that extracts the latest indie game releases from [itch.io](https://itch.io/games/new) and exports structured data to CSV/JSON. Ideal for tracking trends, curating newsletters, or analyzing the indie game market.
 
----
-
 ## Features
 - Scrapes game **title, developer, URL, published date, genre, tags, and description**.
-- Exports data to both `CSV` and `JSON` formats.
+- **Output Formats**: CSV, JSON, SQLite
 
 ## Installation
 
@@ -14,26 +12,22 @@ A Python web scraper that extracts the latest indie game releases from [itch.io]
 ```bash
 git clone https://github.com/chenxing-dev/indie-game-scraper.git
 cd indie-game-scraper
-```
-
-2. **Install dependencies**:
-```bash
-pip install requests beautifulsoup4
+pip install -r requirements.txt  # requests, beautifulsoup4
 ```
 
 ## Usage
 
-### Basic Execution
+### 1. Core Scraping
 
 Execute the script to fetch the latest games:
    ```bash
    python scraper.py
    ```
 
-Output files (`indie_games_YYYYMMDD_HHMMSS.csv` and `indie_games_YYYYMMDD_HHMMSS.json`) will be generated in the `data` directory.
+Output files (`indie_games_YYYYMMDD_HHMMSS.csv` and `indie_games_YYYYMMDD_HHMMSS.json`) will be generated in the `data/` directory.
 
 
-### Scheduled Scraping
+#### Scheduled Scraping
 To collect data periodically, use a cron job. Example cron job (runs daily at 9pm):
 ```bash
 0 21 * * * cd /path/to/indie-game-scraper && venv/bin/python scraper.py >> scraper.log 2>&1
@@ -47,7 +41,7 @@ To collect data periodically, use a cron job. Example cron job (runs daily at 9p
 which python
 ```
 
-## Output Example
+#### Output Example
 
 **JSON Fields**:
 ```json
@@ -70,11 +64,47 @@ which python
   }
 ```
 
-## Use Cases
-- **Discover New Games**: Track daily releases automatically.
-- **Trend Analysis**: Identify trending genres (e.g., "horror", "roguelike") from tags.
-- **Content Curation**: Power newsletters, blogs, or social media feeds highlighting new indie games with fresh game data.
-- **Integration**: Feed data into APIs, or databases.
+### 2. Optional Report Generation
+```bash
+# Install dependencies
+pip install pandas tabulate
+
+# Generate daily summary report
+python generate_report.py
+```
+**Output**: `reports/daily_report_YYYY-MM-DD.md`  
+
+### 3. Database Setup
+```bash
+# Create database and import latest CSV
+python database.py
+```
+Creates/Updates: `indie_games.db`
+
+### 4. Query Data
+```bash
+# Get latest 5 releases
+python query.py
+
+# Sample output:
+# 28 April 2025 @ 07:08 UTC | Shoot by TheChainsawBoy
+# 28 April 2025 @ 07:05 UTC | Su-no-ku by ObeseTermite
+# 28 April 2025 @ 07:04 UTC | Unstoppable Piko by Severus Prince
+# 28 April 2025 @ 07:03 UTC | Lucky Fighter EX Plus Ika by Takishi Usada
+# 28 April 2025 @ 06:58 UTC | Speedy Stapler by Shylencce
+```
+
+## File Structure
+```
+indie-game-scraper/
+├── data/               # Scraped data (CSV/JSON)
+├── reports/            # Generated reports
+├── indie_games.db      # SQLite database
+├── scraper.py          # Main scraper
+├── database.py         # DB management
+├── query.py            # Example queries
+└── generate_report.py  # Reports (optional)
+```
 
 ## Disclaimer
 This script is for educational purposes only. 
