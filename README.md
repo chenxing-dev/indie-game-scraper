@@ -30,7 +30,7 @@ Output files (`indie_games_YYYYMMDD_HHMMSS.csv` and `indie_games_YYYYMMDD_HHMMSS
 #### Scheduled Scraping
 To collect data periodically, use a cron job. Example cron job (runs daily at 9pm):
 ```bash
-0 21 * * * cd /path/to/indie-game-scraper && venv/bin/python scraper.py >> scraper.log 2>&1
+0 21 * * * source /path/to/indie-game-scraper/venv/bin/activate && /path/to/indie-game-scraper/venv/bin/python /path/to/indie-game-scraper/scraper.py >> /path/to/indie-game-scraper/scraper.log 2>&1
 ```
 
 - `>> scraper.log` saves output to a log file
